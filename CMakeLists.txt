@@ -149,6 +149,7 @@ if(BUILD_DOCUMENTATION)
     add_custom_command(
       OUTPUT ${DOXYGEN_HTML_INDEX}
       COMMAND ${CMAKE_COMMAND} -E echo_append "Building API Documentation..."
+      COMMAND ${DOXYGEN_EXECUTABLE} -u ${DOXYGEN_DOXYFILE}
       COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_DOXYFILE}
       COMMAND ${CMAKE_COMMAND} -E echo "Done."
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/doxygen
@@ -158,6 +159,7 @@ if(BUILD_DOCUMENTATION)
     add_custom_target(
       docs_forced
       COMMAND ${CMAKE_COMMAND} -E echo_append "Building API Documentation..."
+      COMMAND ${DOXYGEN_EXECUTABLE} -u ${DOXYGEN_DOXYFILE}
       COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_DOXYFILE}
       COMMAND ${CMAKE_COMMAND} -E echo "Done."
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/doxygen
