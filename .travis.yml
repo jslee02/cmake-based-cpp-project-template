@@ -10,5 +10,5 @@ env:
 before_script: cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE .
 script:
   - make
-  - make test
+  #- make test
 
