@@ -29,15 +29,13 @@ branches:
   except:
     - gh-pages
 
+# scripts that run after cloning repository
 install:
   - cmd: cd C:\projects
   - ps: Start-FileDownload 'http://www.prism.gatech.edu/~tkunz3/DART-Prerequisites.msi'
-  - cmd: dir
   - cmd: C:\projects\DART-Prerequisites.msi
-  - cmd: cd C:\
-  - cmd: dir
-  - cmd: cd C:\Golems\include
-  - cmd: dir
+  # - cinst doxygen.install
+  - choco install doxygen
 
 # scripts to run before build
 before_build:
