@@ -14,6 +14,7 @@ sudo apt-get update
 
 APT_CORE='
 cmake
+doxygen
 freeglut3-dev
 libassimp-dev
 libboost-all-dev
