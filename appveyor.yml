@@ -20,17 +20,31 @@ branches:
   except:
     - gh-pages
 
+init:
+  - cmd: dir c:\projects
+  - cmd: cmake --version
+  - cmd: msbuild /version
+
+install:
+  - cd c:\projects
+# - ps: Start-FileDownload 'https://github.com/robotology/ycm/releases/download/v0.1.0/YCM-0.1.0-win32.msi'
+# - cmd: c:\dev\YCM-0.1.0-win32.msi 
+
 # scripts to run before build
 before_build:
-  - echo %CD%
   - cmd: cd c:\projects\dart
   - cmd: md build
   - cmd: cd build
-  - cmd: if "%platform%"=="Win32" cmake -G "Visual Studio 11" ..
-  - cmd: if "%platform%"=="x64" cmake -G "Visual Studio 11 Win64" ..
+  - cmd: if "%platform%"=="Win32" cmake -G "Visual Studio 11"       ..
+  - cmd: if "%platform%"=="x64"   cmake -G "Visual Studio 11 Win64" ..
   
 build:
   project: C:\projects\dart\build\dart.sln
   
 test_script:
-  - cmd: ctest -VV
+  - cmd: ctest -C Release -VV
+  - cmd: ctest -C Debug -VV
+
+#after_build:
+#  - cmd: cmake --build C:\projects\ycm\build --target INSTALL
+#  - cmd: cmake --build C:\projects\ycm\build --target PACKAGE
