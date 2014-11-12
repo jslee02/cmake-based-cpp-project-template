@@ -13,12 +13,12 @@ configuration:
 
 # scripts that are called at very beginning, before repo cloning
 init:
-  - cmd: dir c:\projects
+  - cmd: dir C:\projects
   - cmd: cmake --version
   - cmd: msbuild /version
 
 # clone directory
-clone_folder: c:\projects\dart
+clone_folder: C:\projects\dart
 
 # branches to build
 branches:
@@ -30,16 +30,16 @@ branches:
     - gh-pages
 
 install:
-  - cmd: cd c:\projects
+  - cmd: cd C:\projects
   - ps: Start-FileDownload 'http://www.prism.gatech.edu/~tkunz3/DART-Prerequisites.msi'
   - cmd: dir
-  - cmd: c:\projects\DART-Prerequisites.msi
-  - cmd: cd c:\
+  - cmd: C:\projects\DART-Prerequisites.msi
+  - cmd: cd C:\
   - cmd: dir
 
 # scripts to run before build
 before_build:
-  - cmd: cd c:\projects\dart
+  - cmd: cd C:\projects\dart
   - cmd: md build
   - cmd: cd build
   - cmd: if "%platform%"=="Win32" cmake -G "Visual Studio 11"       ..
