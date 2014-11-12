@@ -3,6 +3,9 @@
 #===============================================================================
 cmake_minimum_required(VERSION 2.8.4)
 
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+set(CMAKE_DEBUG_POSTFIX "d")
+
 #===============================================================================
 # Project information
 #===============================================================================
@@ -30,6 +33,7 @@ option(ENABLE_OPENMP "Build with OpenMP parallaization enabled" ON)
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(BUILD_EXAMPLES "Build examples" ON)
 option(BUILD_TUTORIALS "Build tutorials" ON)
+option(BUILD_DOCUMENTATION "Build API document" ON)
 
 #===============================================================================
 # Compiler flags
@@ -55,12 +59,21 @@ message(STATUS "")
 message(STATUS "[ Finding 3rd Party Packages ]")
 #message(STATUS "")
 
+# Eigen (required)
+find_package(Eigen REQUIRED)
+if(EIGEN_FOUND)
+  message(STATUS "Eigen: found")
+else()
+  message(SEND_ERROR "Eigen: not found")
+endif()
+
 #===============================================================================
-# Print setting messages
+# Print build summary
 #===============================================================================
 message(STATUS "")
-message(STATUS "[ Settings ]")
+message(STATUS "[ Build summary ]")
 #message(STATUS "")
+message(STATUS "CMAKE_GENERATOR  : ${CMAKE_GENERATOR}")
 message(STATUS "Compiler ID      : ${CMAKE_CXX_COMPILER_ID}")
 message(STATUS "Compiler version : ${CMAKE_CXX_COMPILER_VERSION}")
 message(STATUS "Build type       : ${CMAKE_BUILD_TYPE}")
@@ -88,6 +101,52 @@ message(STATUS "[ Configuring files ]")
 # Add sub-directories
 #===============================================================================
 add_subdirectory(dart)
+
+#===============================================================================
+# API Document using Doxygen
+#===============================================================================
+# Reference:
+# http://mementocodex.wordpress.com/2013/01/19/how-to-generate-code-documentation-with-doxygen-and-cmake-a-slightly-improved-approach/
+# http://www.cmake.org/pipermail/cmake/2007-February/012796.html
+if(BUILD_DOCUMENTATION)
+  find_package(Doxygen)
+  if(DOXYGEN_FOUND)
+    set(DOXYGEN_DOXYFILE_IN  ${PROJECT_SOURCE_DIR}/doxygen/Doxyfile.in    )
+    set(DOXYGEN_DOXYFILE     ${PROJECT_BINARY_DIR}/doxygen/Doxyfile       )
+    set(DOXYGEN_HTML_INDEX   ${PROJECT_SOURCE_DIR}/doxygen/html/index.html)
+    set(DOXYGEN_OUTPUT_ROOT  ${PROJECT_SOURCE_DIR}/doxygen/html           ) # Pasted into Doxyfile.in
+    set(DOXYGEN_INPUT_ROOT   ${PROJECT_SOURCE_DIR}/dart                   ) # Pasted into Doxyfile.in
+    set(DOXYGEN_EXTRA_INPUTS ${PROJECT_SOURCE_DIR}/doxygen/mainpage.dox   ) # Pasted into Doxyfile.in
+
+    configure_file(${DOXYGEN_DOXYFILE_IN} ${DOXYGEN_DOXYFILE} @ONLY)
+    file(
+      COPY "${PROJECT_SOURCE_DIR}/doxygen/DART logo.png"
+      DESTINATION ${DOXYGEN_OUTPUT_ROOT}
+    )
+
+    add_custom_command(
+      OUTPUT ${DOXYGEN_HTML_INDEX}
+      COMMAND ${CMAKE_COMMAND} -E echo_append "Building API Documentation..."
+      COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_DOXYFILE}
+      COMMAND ${CMAKE_COMMAND} -E echo "Done."
+      WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/doxygen
+      DEPENDS ${DOXYGEN_DOXYFILE}
+    )
+    add_custom_target(docs ALL DEPENDS ${DOXYGEN_HTML_INDEX})
+    add_custom_target(
+      docs_forced
+      COMMAND ${CMAKE_COMMAND} -E echo_append "Building API Documentation..."
+      COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_DOXYFILE}
+      COMMAND ${CMAKE_COMMAND} -E echo "Done."
+      WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/doxygen
+    )
+
+    install(DIRECTORY ${DOXYGEN_OUTPUT_ROOT} DESTINATION share/doc)
+
+  else()
+    message(WARNING "Doxygen is required to build the API documentation.")
+  endif()
+endif()
 
 #===============================================================================
 # END
