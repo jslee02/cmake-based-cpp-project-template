@@ -6,6 +6,10 @@ cmake_minimum_required(VERSION 2.8.4)
 set(CMAKE_DEBUG_POSTFIX "d")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 include(${CMAKE_MODULE_PATH}/DARTMacros.cmake)
+# System Install paths
+if(WIN32 AND CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX "C:/Golems" CACHE PATH "Install prefix" FORCE)
+endif()
 
 #===============================================================================
 # Project information
