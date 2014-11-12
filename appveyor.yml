@@ -32,6 +32,7 @@ branches:
 install:
   - cd c:\projects
   - ps: Start-FileDownload 'http://www.prism.gatech.edu/~tkunz3/DART-Prerequisites.msi'
+  - cmd: dir
   - cmd: c:\projects\DART-Prerequisites.msi
 
 # scripts to run before build
