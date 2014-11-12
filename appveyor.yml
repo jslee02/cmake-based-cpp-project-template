@@ -30,10 +30,12 @@ branches:
     - gh-pages
 
 install:
-  - cd c:\projects
+  - cmd: cd c:\projects
   - ps: Start-FileDownload 'http://www.prism.gatech.edu/~tkunz3/DART-Prerequisites.msi'
   - cmd: dir
   - cmd: c:\projects\DART-Prerequisites.msi
+  - cmd: cd c:\
+  - cmd: dir
 
 # scripts to run before build
 before_build:
