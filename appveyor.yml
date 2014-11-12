@@ -1,3 +1,6 @@
+# Operating system (build VM template)
+# os: Windows Server 2012 R2
+
 # build platform, i.e. Win32 (instead of x86), x64, Any CPU. This setting is optional.
 platform: 
   - Win32
@@ -7,6 +10,12 @@ platform:
 configuration:
   - Debug
   - Release
+
+# scripts that are called at very beginning, before repo cloning
+init:
+  - cmd: dir c:\projects
+  - cmd: cmake --version
+  - cmd: msbuild /version
 
 # clone directory
 clone_folder: c:\projects\dart
@@ -19,11 +28,6 @@ branches:
   # blacklist
   except:
     - gh-pages
-
-init:
-  - cmd: dir c:\projects
-  - cmd: cmake --version
-  - cmd: msbuild /version
 
 install:
   - cd c:\projects
@@ -45,6 +49,7 @@ test_script:
   - cmd: ctest -C Release -VV
   - cmd: ctest -C Debug -VV
 
+# scripts to run after build
 #after_build:
 #  - cmd: cmake --build C:\projects\ycm\build --target INSTALL
 #  - cmd: cmake --build C:\projects\ycm\build --target PACKAGE
