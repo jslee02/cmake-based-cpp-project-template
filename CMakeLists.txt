@@ -3,8 +3,9 @@
 #===============================================================================
 cmake_minimum_required(VERSION 2.8.4)
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 set(CMAKE_DEBUG_POSTFIX "d")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+include(${CMAKE_MODULE_PATH}/DARTMacros.cmake)
 
 #===============================================================================
 # Project information
@@ -29,6 +30,7 @@ message(STATUS "======================")
 #===============================================================================
 # Options
 #===============================================================================
+option(DART_DOUBLE_PRECISION "Double precision" ON)
 option(ENABLE_OPENMP "Build with OpenMP parallaization enabled" ON)
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(BUILD_EXAMPLES "Build examples" ON)
@@ -78,6 +80,7 @@ message(STATUS "Compiler ID      : ${CMAKE_CXX_COMPILER_ID}")
 message(STATUS "Compiler version : ${CMAKE_CXX_COMPILER_VERSION}")
 message(STATUS "Build type       : ${CMAKE_BUILD_TYPE}")
 message(STATUS "BUILD_SHARED_LIBS: ${BUILD_SHARED_LIBS}")
+message(STATUS "DOUBLE_PRECISION : ${DART_DOUBLE_PRECISION}")
 message(STATUS "ENABLE_OPENMP    : ${ENABLE_OPENMP}")
 message(STATUS "BUILD_EXAMPLES   : ${BUILD_EXAMPLES}")
 message(STATUS "BUILD_TUTORIALS  : ${BUILD_TUTORIALS}")
@@ -98,8 +101,8 @@ message(STATUS "[ Configuring files ]")
 #message(STATUS "")
 
 # Generate the dart config file (reference: http://www.vtk.org/Wiki/CMake:How_To_Write_Platform_Checks)
-set(DART_CONFIG_IN "${CMAKE_SOURCE_DIR}/dart/config.h.in")
-set(DART_CONFIG_OUT ${CMAKE_BINARY_DIR}/dart/config.h)
+set(DART_CONFIG_IN "${CMAKE_SOURCE_DIR}/dart/common/Config.h.in")
+set(DART_CONFIG_OUT ${CMAKE_BINARY_DIR}/dart/common/Config.h)
 configure_file(${DART_CONFIG_IN} ${DART_CONFIG_OUT} @ONLY)
 install(FILES ${DART_CONFIG_OUT} DESTINATION include/dart)
 message(STATUS "config.h.in    -> ${DART_CONFIG_OUT}")
@@ -109,6 +112,8 @@ message(STATUS "config.h.in    -> ${DART_CONFIG_OUT}")
 #===============================================================================
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${CMAKE_BINARY_DIR})
+
+include_directories(${Eigen_INCLUDE_DIRS})
 
 #===============================================================================
 # Add sub-directories

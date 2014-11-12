@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "dart/config.h"
+#include "dart/common/Config.h"
 
 using namespace std;
 
