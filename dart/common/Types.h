@@ -51,10 +51,10 @@ typedef Vector2f Vector2t;
 namespace dart {
 
 typedef std::string   String;
-typedef int32_t       Int32;
-typedef uint          UInt32;
-typedef int64_t       Int64;
-typedef uint64_t      UInt64;
+// typedef int32_t       Int32;
+// typedef uint          UInt32;
+// typedef int64_t       Int64;
+// typedef uint64_t      UInt64;
 typedef float         Float;
 typedef Scalar        Double;
 typedef Scalar        Real;
