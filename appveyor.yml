@@ -31,8 +31,8 @@ branches:
 
 install:
   - cd c:\projects
-# - ps: Start-FileDownload 'https://github.com/robotology/ycm/releases/download/v0.1.0/YCM-0.1.0-win32.msi'
-# - cmd: c:\dev\YCM-0.1.0-win32.msi 
+  - ps: Start-FileDownload 'http://www.prism.gatech.edu/~tkunz3/DART-Prerequisites.msi'
+  - cmd: c:\projects\DART-Prerequisites.msi
 
 # scripts to run before build
 before_build:
