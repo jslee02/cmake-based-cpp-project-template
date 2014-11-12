@@ -13,7 +13,6 @@ configuration:
 
 # scripts that are called at very beginning, before repo cloning
 init:
-  - cmd: dir C:\projects
   - cmd: cmake --version
   - cmd: msbuild /version
 
