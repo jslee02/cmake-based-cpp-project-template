@@ -36,6 +36,8 @@ install:
   - cmd: C:\projects\DART-Prerequisites.msi
   - cmd: cd C:\
   - cmd: dir
+  - cmd: cd C:\Golems\include
+  - cmd: dir
 
 # scripts to run before build
 before_build:
