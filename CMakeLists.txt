@@ -45,7 +45,7 @@ option(BUILD_DOCUMENTATION "Build API document" ON)
 # Compiler flags
 #===============================================================================
 if(MSVC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 elseif(CMAKE_COMPILER_IS_GNUCXX)
   if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.7.0")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
