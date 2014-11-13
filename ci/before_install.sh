@@ -12,9 +12,13 @@ sudo add-apt-repository --yes ppa:fcl-debs/ppa
 sudo add-apt-repository --yes ppa:dartsim/ppa
 sudo apt-get update
 
+APT_TOOLS='
+clang-format-3.4
+doxygen
+'
+
 APT_CORE='
 cmake
-doxygen
 freeglut3-dev
 libassimp-dev
 libboost-all-dev
@@ -33,6 +37,8 @@ libtinyxml2-dev
 liburdfdom-dev
 liburdfdom-headers-dev
 '
+
+sudo apt-get --yes --force-yes install $APT_TOOLS
 
 if [ $BUILD_CORE_ONLY = OFF ]; then
   sudo apt-get --yes --force-yes install $APT
