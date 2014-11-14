@@ -10,9 +10,9 @@ Command::Command()
 {
   static DWORD dwSeed = 0;
 
-  m_dwSeqNum = ++dwSeed;
+  m_dwSeqNum       = ++dwSeed;
   m_bFirstExecuted = true;
-  mDescription = "Unnamed Command";
+  mDescription     = "Unnamed Command";
 }
 
 //==============================================================================

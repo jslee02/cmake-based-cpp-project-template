@@ -50,7 +50,7 @@ typedef Vector2f Vector2t;
 //==============================================================================
 namespace dart {
 
-typedef std::string   String;
+typedef std::string String;
 // typedef int32_t       Int32;
 // typedef uint          UInt32;
 // typedef int64_t       Int64;

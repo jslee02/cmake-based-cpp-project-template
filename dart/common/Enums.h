@@ -88,32 +88,32 @@ enum class PropertyType : unsigned long
   GUID  = 0x00000020,
   CLSID = 0x00000021,
 
-  CompName = 0x00000028,
-  MultiLineText = 0x00000029,
+  CompName       = 0x00000028,
+  MultiLineText  = 0x00000029,
   SingleLineText = 0x00000030,
-  FilePath = 0x00000031,
+  FilePath       = 0x00000031,
 
   UserProperties = 0x00000040,
-  UserEvents = 0x00000041,
+  UserEvents     = 0x00000041,
 
-  Vec2 = 0x00000050,
-  Vec3 = 0x00000051,
+  Vec2    = 0x00000050,
+  Vec3    = 0x00000051,
   InvVec3 = 0x00000052,
-  SO3 = 0x00000053,
-  se3 = 0x00000054,
-  SE3 = 0x00000055,
-  dse3 = 0x00000056,
+  SO3     = 0x00000053,
+  se3     = 0x00000054,
+  SE3     = 0x00000055,
+  dse3    = 0x00000056,
   Inertia = 0x00000057,
 
 /*EnumerationType: 0x0000??00*/
-  ObjectType = 0x00001100,
-  Boolean = 0x00001200,
-  ActuatorType = 0x00001300,
-  MassShapeType = 0x00001400,
+  ObjectType         = 0x00001100,
+  Boolean            = 0x00001200,
+  ActuatorType       = 0x00001300,
+  MassShapeType      = 0x00001400,
   CollisionShapeType = 0x00001500,
-  JointLimitType = 0x00001600,
-  FunctionOnOff = 0x00001700,
-  ControlSyncMode = 0x00001800,
+  JointLimitType     = 0x00001600,
+  FunctionOnOff      = 0x00001700,
+  ControlSyncMode    = 0x00001800,
 
 /*XComponent*: 0x00??0000*/
   CompPtr          = 0x00010000,
@@ -132,14 +132,14 @@ enum class PropertyType : unsigned long
 
 enum TraitString
 {
-  traitDef	= 0x0001,
-  traitAux	= 0x0002,
-  traitRes	= 0x0004,
-  traitAuto	= 0x0008,
+  traitDef  = 0x0001,
+  traitAux  = 0x0002,
+  traitRes  = 0x0004,
+  traitAuto = 0x0008,
 
   traitAuxNonUnique = 0x0020,
   traitResNonUnique = 0x0040,
-  traitAllUnique	  = 0x0080,
+  traitAllUnique    = 0x0080,
 };
 
 enum class XError {
