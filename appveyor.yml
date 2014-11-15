@@ -34,7 +34,7 @@ install:
   - ps: Start-FileDownload 'http://www.prism.gatech.edu/~tkunz3/DART-Prerequisites.msi'
   - cmd: C:\projects\DART-Prerequisites.msi
   # - cinst doxygen.install
-  - choco install doxygen.install
+  - cmdk: choco install doxygen.install
 
 # scripts to run before build
 before_build:
