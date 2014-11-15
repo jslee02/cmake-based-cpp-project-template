@@ -18,7 +18,7 @@ public:
   virtual ~Command();
 
   /// Excute
-  virtual XError execute() = 0;
+   virtual XError execute() = 0;
 
   /// Undo
   virtual XError undo() = 0;
