@@ -8,7 +8,7 @@ SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
 
 # Absolute path to the project
-SOURCE_DIR=""$SCRIPTPATH"/../.."
+SOURCE_DIR="$SCRIPTPATH/../.."
 
 # Set target directory
 CHECK_DIRS="$SOURCE_DIR/dart/"
