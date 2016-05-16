@@ -1,7 +1,4 @@
-file(GLOB srcs "*.cpp")
-file(GLOB hdrs "*.h")
-add_library(common ${srcs} ${hdrs})
-target_link_libraries(common ${CMAKE_DL_LIBS})
+file(GLOB hdrs "*.hpp")
 
 generate_include_header_list(common_headers
                              "dart5/common/"

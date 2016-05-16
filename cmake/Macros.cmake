@@ -20,3 +20,17 @@ foreach(header ${ARGN})
                           "#include \"${_target_dir}${header}\"\n")
 endforeach()
 endmacro(generate_include_header_list)
+
+#===============================================================================
+# Helper Functions
+#===============================================================================
+set_property(GLOBAL PROPERTY ${CMAKE_PROJECT_NAME}_EXAMPLES)
+set_property(GLOBAL PROPERTY ${CMAKE_PROJECT_NAME}_UNITTESTS)
+
+function(cpptemplate_add_example target_name)
+  set_property(GLOBAL APPEND PROPERTY ${CMAKE_PROJECT_NAME}_EXAMPLES "${target_name}")
+endfunction(cpptemplate_add_example)
+
+function(cpptemplate_add_test target_name)
+  set_property(GLOBAL APPEND PROPERTY ${CMAKE_PROJECT_NAME}_TESTS "${target_name}")
+endfunction(cpptemplate_add_test)

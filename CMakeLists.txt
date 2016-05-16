@@ -1,27 +1,22 @@
 #===============================================================================
 # CMake settings
 #===============================================================================
-cmake_minimum_required(VERSION 2.8.4)
+cmake_minimum_required(VERSION 2.8.11)
 
 set(CMAKE_DEBUG_POSTFIX "d")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-include(${CMAKE_MODULE_PATH}/DARTMacros.cmake)
-# System Install paths
-if(WIN32)
-  set(CMAKE_INSTALL_PREFIX "C:/Golems" CACHE PATH "Install prefix" FORCE)
-endif()
+include(${CMAKE_MODULE_PATH}/Macros.cmake)
 
 #===============================================================================
 # Project information
 #===============================================================================
-project(dart)
+project(cpptemplate)
 
-set(DART_MAJOR_VERSION "5")
-set(DART_MINOR_VERSION "0")
+set(DART_MAJOR_VERSION "0")
+set(DART_MINOR_VERSION "1")
 set(DART_PATCH_VERSION "0")
 set(DART_PKG_DESC "Dynamic Animation and Robotics Toolkit")
 set(DART_VERSION "${DART_MAJOR_VERSION}.${DART_MINOR_VERSION}.${DART_PATCH_VERSION}")
-set(DART_PKG_EXTERNAL_DEPS "")
 
 #===============================================================================
 # Print intro
@@ -105,11 +100,15 @@ message(STATUS "[ Configuring files ]")
 #message(STATUS "")
 
 # Generate the dart config file (reference: http://www.vtk.org/Wiki/CMake:How_To_Write_Platform_Checks)
-set(DART_CONFIG_IN "${CMAKE_SOURCE_DIR}/dart/common/Config.h.in")
-set(DART_CONFIG_OUT ${CMAKE_BINARY_DIR}/dart/common/Config.h)
-configure_file(${DART_CONFIG_IN} ${DART_CONFIG_OUT} @ONLY)
-install(FILES ${DART_CONFIG_OUT} DESTINATION include/dart)
-message(STATUS "config.h.in    -> ${DART_CONFIG_OUT}")
+set(${CMAKE_PROJECT_NAME}_CONFIG_IN "${CMAKE_SOURCE_DIR}/include/Config.hpp.in")
+set(${CMAKE_PROJECT_NAME}_CONFIG_OUT ${CMAKE_BINARY_DIR}/include/Config.hpp)
+configure_file(
+    ${${CMAKE_PROJECT_NAME}_CONFIG_IN}
+    ${${CMAKE_PROJECT_NAME}_CONFIG_OUT} @ONLY)
+install(
+    FILES ${${CMAKE_PROJECT_NAME}_CONFIG_OUT}
+    DESTINATION include/${CMAKE_PROJECT_NAME})
+message(STATUS "Config.h.in    -> ${${CMAKE_PROJECT_NAME}_CONFIG_OUT}")
 
 #===============================================================================
 # Include directories
@@ -122,7 +121,11 @@ include_directories(${Eigen_INCLUDE_DIRS})
 #===============================================================================
 # Add sub-directories
 #===============================================================================
-add_subdirectory(dart)
+add_subdirectory(include)
+add_subdirectory(src)
+add_subdirectory(examples EXCLUDE_FROM_ALL)
+enable_testing()
+add_subdirectory(tests)
 
 #===============================================================================
 # API Document using Doxygen
@@ -141,10 +144,6 @@ if(BUILD_DOCUMENTATION)
     set(DOXYGEN_EXTRA_INPUTS ${PROJECT_SOURCE_DIR}/doxygen/mainpage.dox   ) # Pasted into Doxyfile.in
 
     configure_file(${DOXYGEN_DOXYFILE_IN} ${DOXYGEN_DOXYFILE} @ONLY)
-    file(
-      COPY "${PROJECT_SOURCE_DIR}/doxygen/DART logo.png"
-      DESTINATION ${DOXYGEN_OUTPUT_ROOT}
-    )
 
     add_custom_command(
       OUTPUT ${DOXYGEN_HTML_INDEX}
