@@ -3,6 +3,20 @@
 #===============================================================================
 cmake_minimum_required(VERSION 2.8.11)
 
+# Use MACOSX_RPATH by default on OS X. This was added in CMake 2.8.12 and
+# became default in CMake 3.0. Explicitly setting this policy is necessary to
+# suppress a warning in CMake 3.0 and above.
+if(POLICY CMP0042)
+  cmake_policy(SET CMP0042 NEW)
+endif()
+
+# Simplify variable reference and escape sequence evaluation. This was added in
+# CMake 3.1. Explicitly setting this policy is necessary to suppress a warning
+# in CMake 3.1 and above.
+if(POLICY CMP0053)
+  cmake_policy(SET CMP0053 NEW)
+endif()
+
 set(CMAKE_DEBUG_POSTFIX "d")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 include(${CMAKE_MODULE_PATH}/Macros.cmake)
@@ -35,6 +49,11 @@ option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(BUILD_EXAMPLES "Build examples" ON)
 option(BUILD_TUTORIALS "Build tutorials" ON)
 option(BUILD_DOCUMENTATION "Build API document" ON)
+
+if(DART_COVERALLS)
+  include(Coveralls)
+  coveralls_turn_on_coverage()
+endif()
 
 #===============================================================================
 # Compiler flags
@@ -123,7 +142,7 @@ include_directories(${Eigen_INCLUDE_DIRS})
 #===============================================================================
 include_directories(include)
 include_directories(src)
-add_subdirectory(include/cpptemplate)
+add_subdirectory(include/${CMAKE_PROJECT_NAME})
 add_subdirectory(src)
 
 # Add an "examples" target to build examples.
