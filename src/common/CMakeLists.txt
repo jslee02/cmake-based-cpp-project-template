@@ -1,3 +1,10 @@
-file(GLOB srcs "*.cpp")
-add_library(common ${srcs})
-target_link_libraries(common ${CMAKE_DL_LIBS})
+get_filename_component(DIRECTORY_NAME ${CMAKE_CURRENT_LIST_DIR} NAME)
+
+set(SOURCES
+  Template.cpp
+)
+
+add_library(${PROJECT_NAME}-${DIRECTORY_NAME} ${${CMAKE_PROJECT_NAME}_HEADERS} ${SOURCES})
+#target_link_libraries(${PROJECT_NAME}-${DIRECTORY_NAME}
+#    ${SOME_DEPENDENCY_LIBRARY}
+#)

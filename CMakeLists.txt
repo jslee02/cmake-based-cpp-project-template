@@ -100,8 +100,8 @@ message(STATUS "[ Configuring files ]")
 #message(STATUS "")
 
 # Generate the dart config file (reference: http://www.vtk.org/Wiki/CMake:How_To_Write_Platform_Checks)
-set(${CMAKE_PROJECT_NAME}_CONFIG_IN "${CMAKE_SOURCE_DIR}/include/Config.hpp.in")
-set(${CMAKE_PROJECT_NAME}_CONFIG_OUT ${CMAKE_BINARY_DIR}/include/Config.hpp)
+set(${CMAKE_PROJECT_NAME}_CONFIG_IN "${CMAKE_SOURCE_DIR}/include/${CMAKE_PROJECT_NAME}/Config.hpp.in")
+set(${CMAKE_PROJECT_NAME}_CONFIG_OUT ${CMAKE_BINARY_DIR}/include/${CMAKE_PROJECT_NAME}/Config.hpp)
 configure_file(
     ${${CMAKE_PROJECT_NAME}_CONFIG_IN}
     ${${CMAKE_PROJECT_NAME}_CONFIG_OUT} @ONLY)
@@ -121,11 +121,71 @@ include_directories(${Eigen_INCLUDE_DIRS})
 #===============================================================================
 # Add sub-directories
 #===============================================================================
-add_subdirectory(include)
+include_directories(include)
+include_directories(src)
+add_subdirectory(include/cpptemplate)
 add_subdirectory(src)
-add_subdirectory(examples EXCLUDE_FROM_ALL)
+
+# Add an "examples" target to build examples.
+add_subdirectory(examples)
+
+get_property(examples GLOBAL PROPERTY ${CMAKE_PROJECT_NAME}_EXAMPLES)
+add_custom_target(examples DEPENDS ${examples})
+
+message(STATUS "")
+message(STATUS "[ Examples ]")
+
+foreach(example ${examples})
+  message(STATUS "Adding example: ${example}")
+endforeach(example ${examples})
+
+# Add a "tests" target to build unit tests.
 enable_testing()
 add_subdirectory(tests)
+
+get_property(tests GLOBAL PROPERTY ${CMAKE_PROJECT_NAME}_TESTS)
+add_custom_target(tests DEPENDS ${unittests})
+
+message(STATUS "")
+message(STATUS "[ Unit Tests ]")
+foreach(unittest ${unittests})
+  message(STATUS "Adding test: ${unittest}")
+endforeach(unittest ${unittests})
+
+#===============================================================================
+# Code Formatting
+#===============================================================================
+message(STATUS "")
+message(STATUS "[ Code Formatting ]")
+
+find_program(CLANG_FORMAT_EXECUTABLE
+             NAMES clang-format clang-format-3.9 clang-format-3.8)
+
+if (CLANG_FORMAT_EXECUTABLE)
+
+  message(STATUS "Looking for clang-format - found")
+
+  file(GLOB_RECURSE FORMAT_FILES
+       ${CMAKE_SOURCE_DIR}/include/*.hpp
+       ${CMAKE_SOURCE_DIR}/src/*.cpp)
+
+  add_custom_target(format
+                    COMMAND ${CMAKE_COMMAND} -E echo "Formatting code... "
+                    COMMAND ${CLANG_FORMAT_EXECUTABLE} -style=file -i ${FORMAT_FILES}
+                    COMMAND ${CMAKE_COMMAND} -E echo "Done."
+                    DEPENDS ${CLANG_FORMAT_EXECUTABLE})
+
+  add_custom_target(check-format
+                    COMMAND ${CMAKE_COMMAND} -E echo "Checking code format... "
+                    COMMAND ${CMAKE_SOURCE_DIR}/tools/check_format.sh ${CLANG_FORMAT_EXECUTABLE} ${FORMAT_FILES}
+                    COMMAND ${CMAKE_COMMAND} -E echo "Done."
+                    DEPENDS ${CLANG_FORMAT_EXECUTABLE})
+
+else()
+
+  message(STATUS "Looking for clang-format - NOT found, please install clang-format to enable automatic code formatting")
+
+endif()
 
 #===============================================================================
 # API Document using Doxygen
@@ -154,7 +214,7 @@ if(BUILD_DOCUMENTATION)
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/doxygen
       DEPENDS ${DOXYGEN_DOXYFILE}
     )
-    add_custom_target(docs ALL DEPENDS ${DOXYGEN_HTML_INDEX})
+    add_custom_target(docs DEPENDS ${DOXYGEN_HTML_INDEX})
     add_custom_target(
       docs_forced
       COMMAND ${CMAKE_COMMAND} -E echo_append "Building API Documentation..."
