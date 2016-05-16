@@ -1,20 +1,36 @@
 language: cpp
-compiler:
-  - gcc
-  - clang
-before_install:
-  - 'ci/before_install.sh'
-os:
-  - linux
-  - osx
-env:
-  global:
-  matrix:
-    - BUILD_TYPE=Debug
-    - BUILD_TYPE=Release
-before_script: cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE .
-script:
-  - make
-  #- make test
-  - './tools/beautifier/check.sh'
 
+sudo: required
+
+dist: trusty
+
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      env: BUILD_TYPE=Debug COVERALLS=ON COMPILER=GCC
+    - os: linux
+      compiler: gcc
+      env: BUILD_TYPE=Release COVERALLS=OFF COMPILER=GCC
+    - os: linux
+      compiler: clang
+      env: BUILD_TYPE=Debug COVERALLS=OFF COMPILER=CLANG
+    - os: linux
+      compiler: clang
+      env: BUILD_TYPE=Release COVERALLS=OFF COMPILER=CLANG
+    - os: osx
+      compiler: clang
+      env: BUILD_TYPE=Debug COVERALLS=OFF COMPILER=CLANG
+    - os: osx
+      compiler: clang
+      env: BUILD_TYPE=Release COVERALLS=OFF COMPILER=CLANG
+
+install:
+  - 'ci/install.sh'
+
+script:
+  - 'ci/script.sh'
+
+after_failure: 
+  - cat Testing/Temporary/LastTest.log
+  - cat Testing/Temporary/LastTestsFailed.log
