@@ -52,8 +52,8 @@ install:
 
 # preserve contents of selected directories and files across project builds
 cache:
-  - C:/tools/vcpkg/installed -> appveyor.yml
-  - C:/tools/vcpkg/packages -> appveyor.yml
+  - C:/tools/vcpkg/installed -> .appveyor.yml
+  - C:/tools/vcpkg/packages -> .appveyor.yml
 
 # scripts to run before build
 before_build:
