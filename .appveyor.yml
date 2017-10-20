@@ -30,11 +30,11 @@ install:
   # install pacakges
   # ---- required dependencies: eigen3, libccd, fcl, assimp, boost
   - vcpkg update
+  - vcpkg install boost:%VCPKG_ARCH%
   - vcpkg install eigen3:%VCPKG_ARCH%
   #- vcpkg install ccd:%VCPKG_ARCH%
   #- vcpkg install fcl:%VCPKG_ARCH%
   #- vcpkg install assimp:%VCPKG_ARCH%
-  #- vcpkg install boost:%VCPKG_ARCH%
   # ---- optional dependencies: nlopt, ipopt, bullet3, ode, flann, tinyxml2, urdfdom_headers, urdfdom, opengl, freeglut, osg
   #- vcpkg install nlopt:%VCPKG_ARCH%
   #- vcpkg install ipopt:%VCPKG_ARCH%
