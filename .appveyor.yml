@@ -52,14 +52,14 @@ install:
 
 # preserve contents of selected directories and files across project builds
 cache:
-  - C:\projects\vcpkg\installed -> appveyor.yml
-  - C:\projects\vcpkg\packages -> appveyor.yml
+  - C:/tools/vcpkg/installed -> appveyor.yml
+  - C:/tools/vcpkg/packages -> appveyor.yml
 
 # scripts to run before build
 before_build:
   - cmd: md build
   - cmd: cd build
-  - cmd: cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+  - cmd: cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
   
 build: off
 
