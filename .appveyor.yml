@@ -1,0 +1,71 @@
+# Specify version format
+version: "{build}"
+
+image: Visual Studio 2017
+
+# Specify custom environment variables
+environment:
+  matrix:
+    - GENERATOR: Visual Studio 15 2017
+      platform: Win32
+
+    - GENERATOR: Visual Studio 15 2017 Win64
+      platform: x64
+
+# build configuration, i.e. Debug, Release, etc.
+configuration:
+  - Debug
+  - Release
+
+# scripts that are called at very beginning, before repo cloning
+init:
+  - cmd: cmake --version
+  - cmd: msbuild /version
+
+# scripts that are called at very beginning, before repo cloning
+init:
+  - cmd: cmake --version
+  - cmd: msbuild /version
+
+# scripts that run after cloning repository
+install:
+  - if "%platform%"=="Win32" set VCPKG_ARCH=x86-windows
+  - if "%platform%"=="x64"   set VCPKG_ARCH=x64-windows
+
+  # install pacakges
+  # ---- required dependencies: eigen3, libccd, fcl, assimp, boost
+  - vcpkg update
+  - vcpkg install eigen3:%VCPKG_ARCH%
+  #- vcpkg install ccd:%VCPKG_ARCH%
+  #- vcpkg install fcl:%VCPKG_ARCH%
+  #- vcpkg install assimp:%VCPKG_ARCH%
+  #- vcpkg install boost:%VCPKG_ARCH%
+  # ---- optional dependencies: nlopt, ipopt, bullet3, ode, flann, tinyxml2, urdfdom_headers, urdfdom, opengl, freeglut, osg
+  #- vcpkg install nlopt:%VCPKG_ARCH%
+  #- vcpkg install ipopt:%VCPKG_ARCH%
+  #- vcpkg install bullet3:%VCPKG_ARCH%
+  #- vcpkg install ode:%VCPKG_ARCH%
+  #- vcpkg install flann:%VCPKG_ARCH%
+  #- vcpkg install tinyxml2:%VCPKG_ARCH%
+  #- vcpkg install urdfdom_headers:%VCPKG_ARCH%
+  #- vcpkg install urdfdom:%VCPKG_ARCH%
+  #- vcpkg install opengl:%VCPKG_ARCH%
+  #- vcpkg install freeglut:%VCPKG_ARCH%
+  #- vcpkg install osg:%VCPKG_ARCH%
+  
+  - vcpkg integrate install
+
+# preserve contents of selected directories and files across project builds
+cache:
+  - C:\projects\vcpkg\installed -> appveyor.yml
+  - C:\projects\vcpkg\packages -> appveyor.yml
+
+# scripts to run before build
+before_build:
+  - cmd: md build
+  - cmd: cd build
+  - cmd: cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+  
+build: off
+
+test: off
