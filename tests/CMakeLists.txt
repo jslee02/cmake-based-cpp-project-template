@@ -63,9 +63,9 @@ foreach(test ${tests})
   cpptemplate_add_test(${base})
 
   if(MSVC)
-    target_link_libraries(${base} dart optimized gtest debug gtestd)
+    target_link_libraries(${base} cpptemplate-common optimized gtest debug gtestd)
   else()
-    target_link_libraries(${base} dart gtest)
+    target_link_libraries(${base} cpptemplate-common gtest)
   endif()
 
   set_target_properties(${base} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/tests")
