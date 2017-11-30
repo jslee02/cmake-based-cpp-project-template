@@ -5,8 +5,11 @@ jobs:
       - image: gcc:6
     dependencies:
       pre:
-        - sudo apt-add-repository --yes ppa:libccd-debs/ppa
-        - sudo apt-get -qq --yes --force-yes install cmake
+        - sudo apt-add-repository ppa:libccd-debs/ppa -y
+        - sudo apt-add-repository ppa:fcl-debs/ppa -y
+        - sudo apt-add-repository ppa:dartsim/ppa -y
+        - sudo apt-get update -q
+        - sudo apt-get install cmake -y
     steps:
       - checkout
       - run: mkdir -p build && cd build
