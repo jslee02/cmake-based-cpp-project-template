@@ -19,6 +19,6 @@ jobs:
             mkdir build && cd build
             cmake ..
             make -j4 all
-  test:
-    override:
-      - make test
+      - run:
+          name: Test
+          command: make test
