@@ -1,16 +1,25 @@
-version: 1.0
+version: 2.0
+jobs:
+  build_gcc_6:
+    docker:
+      - image: gcc:6
+    steps:
+      - checkout
+      - run: mkdir -p build && cd build
+      - run: g++ -o main main.cpp -std=c++14
+      - run: ./main
+  build_gcc_latest:
+    docker:
+      - image: gcc:latest
+    steps:
+      - checkout
+      - run: mkdir -p build && cd build
+      - run: g++ -o main main.cpp -std=c++17
+      - run: ./main
 
-## Customize dependencies
-dependencies:
-  pre:
-    - sudo apt-add-repository --yes ppa:libccd-debs/ppa
-    - sudo apt-add-repository --yes ppa:libccd-debs/ppa
-    - sudo apt-add-repository --yes ppa:fcl-debs/ppa
-    - sudo apt-add-repository --yes ppa:dartsim/ppa
-    - sudo apt-get -qq update
-    - sudo apt-get -qq --yes --force-yes install cmake libassimp-dev libboost-all-dev libccd-dev libeigen3-dev libfcl-dev freeglut3-dev  libxi-dev  libxmu-dev libbullet-dev libflann-dev libnlopt-dev coinor-libipopt-dev libtinyxml-dev libtinyxml2-dev liburdfdom-dev liburdfdom-headers-dev libopenscenegraph-dev
-
-## Customize test commands
-test:
-  override:
-    - make test
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build_gcc_6
+      - build_gcc_latest
