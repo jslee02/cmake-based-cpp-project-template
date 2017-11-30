@@ -5,6 +5,7 @@ jobs:
       - image: gcc:6
     steps:
       - checkout
+      - run: apt-add-repository --yes ppa:libccd-debs/ppa
       - run: mkdir -p build && cd build
       - run: g++ -o main main.cpp -std=c++14
       - run: ./main
