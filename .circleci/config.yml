@@ -6,6 +6,7 @@ jobs:
     dependencies:
       pre:
         - sudo apt-add-repository --yes ppa:libccd-debs/ppa
+        - sudo apt-get -qq --yes --force-yes install cmake
     steps:
       - checkout
       - run: mkdir -p build && cd build
