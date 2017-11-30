@@ -3,24 +3,11 @@ jobs:
   build_gcc_6:
     docker:
       - image: gcc:6
-    steps:
-      - checkout
-      - run: apt-add-repository --yes ppa:libccd-debs/ppa
-      - run: mkdir -p build && cd build
-      - run: g++ -o main main.cpp -std=c++14
-      - run: ./main
-  build_gcc_latest:
-    docker:
-      - image: gcc:latest
+    dependencies:
+      pre:
+        - sudo apt-add-repository --yes ppa:libccd-debs/ppa
     steps:
       - checkout
       - run: mkdir -p build && cd build
-      - run: g++ -o main main.cpp -std=c++17
-      - run: ./main
-
-workflows:
-  version: 2
-  build_and_test:
-    jobs:
-      - build_gcc_6
-      - build_gcc_latest
+      - run: cmake ..
+      - run: make -j4
