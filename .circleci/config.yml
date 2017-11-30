@@ -1,3 +1,5 @@
+version: 1.0
+
 ## Customize dependencies
 dependencies:
   pre:
